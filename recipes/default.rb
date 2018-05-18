@@ -4,16 +4,11 @@
 #
 # Copyright:: 2018, Zan Loy
 
-vim_pkgs = ['vim']
-fam_deb = %w(debian arch)
-fam_rhel = %w(rhel fedora)
-
-case node['platform_family']
-when *fam_deb
-  conf_file = '/etc/vim/vimrc'
-when *fam_rhel
-  vim_pkgs = ['vim-minimal', 'vim-enhanced']
-end
+vim_pkgs = value_for_platform_family(
+  %w(debian arch) => ['vim'],
+  %w(rhel fedora) => ['vim-minimal', 'vim-enhanced'],
+  'default'       => ['vim']
+)
 
 package vim_pkgs
 
